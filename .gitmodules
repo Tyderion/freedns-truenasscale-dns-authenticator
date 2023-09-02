@@ -1,0 +1,3 @@
+[submodule "freedns/acme.sh"]
+	path = freedns/acme.sh
+	url = https://github.com/acmesh-official/acme.sh.git
