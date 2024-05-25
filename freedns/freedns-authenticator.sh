@@ -3,10 +3,11 @@
 # Logfile
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 LOGFILE="${SCRIPT_DIR}/freedns-authenticator.log"
+ERRLOGFILE="${SCRIPT_DIR}/freedns-authenticator.err.log"
 
-export HOME="/mnt/Base/home/acmeScript" # Change this path to reflect yourf environment
+export HOME="/mnt/slow/home/tyderion/acmeScripts/freedns-truenasscale-dns-authenticator" # Change this path to reflect yourf environment
 # Source acmesh scripts
-export ACME_FOLDER="/mnt/Base/acmeScript/freedns/acme.sh" # Change this path to reflect yourf environment
+export ACME_FOLDER="/mnt/slow/home/tyderion/acmeScripts/freedns-truenasscale-dns-authenticator/freedns/acme.sh" # Change this path to reflect yourf environment
 export ACME_DNSAPI="${ACME_FOLDER}/dnsapi"
 export PROVIDER="dns_freedns" # Find provider script in 'dnsapi' folder
 source "${ACME_FOLDER}/acme.sh" > /dev/null 2>&1
@@ -42,12 +43,16 @@ if [ ! -f "${LOGFILE}" ]; then
         touch "${LOGFILE}"
         chmod 500 "${LOGFILE}"
 fi
+if [ ! -f "${ERRLOGFILE}" ]; then
+        touch "${ERRLOGFILE}"
+        chmod 500 "${ERRLOGFILE}"
+fi
 
 # Main
 if [ "${1}" == "set" ]; then
-        ${PROVIDER}_add "${3}" "${4}" >> ${LOGFILE} 2>/dev/null
+        ${PROVIDER}_add "${3}" "${4}" >> ${LOGFILE} 2>${ERRLOGFILE}
 elif [ "${1}" == "unset" ]; then
-        ${PROVIDER}_rm "${3}" "${4}" >> ${LOGFILE} 2>/dev/null
+        ${PROVIDER}_rm "${3}" "${4}" >> ${LOGFILE} 2>${ERRLOGFILE}
 fi
 
 
